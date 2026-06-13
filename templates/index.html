@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Scholarship Finder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .search-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Ensures padding doesn't widen the box */
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #004494;
+        }
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        .match-badge {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            float: right;
+        }
+        .deadline {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .amount {
+            color: #0056b3;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎓 Smart Scholarship Finder</h1>
+        <p>AI-powered matching to find the perfect funding for your profile.</p>
+    </div>
+
+    <div class="search-box">
+        <form method="POST">
+            <label><b>What is your Major/Degree?</b></label>
+            <input type="text" name="major" placeholder="e.g. Computer Science" required>
+
+            <label><b>List your top Skills/Interests:</b></label>
+            <input type="text" name="skills" placeholder="e.g. Python, Web Development, AI" required>
+
+            <label><b>Any specific categories? (Financial status, Gender, etc.)</b></label>
+            <input type="text" name="category" placeholder="e.g. Merit-based, Women in Tech, Financial Need" required>
+
+            <button type="submit">Find My Scholarships</button>
+        </form>
+    </div>
+
+    {% if results != None %}
+        <h2>Top Recommended Scholarships</h2>
+        
+        {% if results|length == 0 %}
+            <p>No matches found. Try adjusting your skills or category!</p>
+        {% else %}
+            {% for sch in results %}
+                <div class="result-card">
+                    <span class="match-badge">{{ sch.match_score }}% Match</span>
+                    <h3>{{ sch.title }}</h3>
+                    <p class="amount">{{ sch.amount }}</p>
+                    <p>{{ sch.description }}</p>
+                    <p class="deadline">📅 Application Deadline: {{ sch.deadline }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+</div>
+
+</body>
+</html>
